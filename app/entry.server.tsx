@@ -24,7 +24,7 @@ export default async function handleRequest(
   remixContext: EntryContext,
   loadContext: AppLoadContext
 ) {
-  const callOriginalHandler = async (req: Request, ctx: AppLoadContext): Promise<Response> => {
+  const callOriginalHandler = async (req: Request, _ctx: AppLoadContext): Promise<Response> => {
     return isbot(request.headers.get('user-agent') || '')
       ? await handleBotRequest(req, responseStatusCode, responseHeaders, remixContext)
       : await handleBrowserRequest(req, responseStatusCode, responseHeaders, remixContext)
