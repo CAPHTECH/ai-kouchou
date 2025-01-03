@@ -92,9 +92,9 @@
 
 ## 基本的なセキュリティ設定
 
-- [ ] CSP (Content Security Policy)の設定
-- [ ] CORS設定
-- [ ] セキュリティヘッダーの設定
+- [x] CSP (Content Security Policy)の設定
+- [x] CORS設定
+- [x] セキュリティヘッダーの設定
 - [ ] 依存パッケージの脆弱性チェック
 
 ## ドキュメント

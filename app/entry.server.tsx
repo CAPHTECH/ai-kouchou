@@ -11,22 +11,28 @@ import { createReadableStreamFromReadable } from '@remix-run/node'
 import { RemixServer } from '@remix-run/react'
 import { isbot } from 'isbot'
 import { renderToPipeableStream } from 'react-dom/server'
+import { corsHeaders } from './lib/middleware/cors'
+import { securityHeaders } from './lib/middleware/security'
 
 const ABORT_DELAY = 5_000
 
-export default function handleRequest(
+export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext,
-  // This is ignored so we can keep it in the template for visibility.  Feel
-  // free to delete this parameter in your app if you're not using it!
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   loadContext: AppLoadContext
 ) {
-  return isbot(request.headers.get('user-agent') || '')
-    ? handleBotRequest(request, responseStatusCode, responseHeaders, remixContext)
-    : handleBrowserRequest(request, responseStatusCode, responseHeaders, remixContext)
+  const callOriginalHandler = async (req: Request, ctx: AppLoadContext): Promise<Response> => {
+    return isbot(request.headers.get('user-agent') || '')
+      ? await handleBotRequest(req, responseStatusCode, responseHeaders, remixContext)
+      : await handleBrowserRequest(req, responseStatusCode, responseHeaders, remixContext)
+  }
+
+  const withCors = (req: Request, ctx: AppLoadContext) => corsHeaders(req, ctx, callOriginalHandler)
+  const withSecurity = (req: Request, ctx: AppLoadContext) => securityHeaders(req, ctx, withCors)
+
+  return withSecurity(request, loadContext)
 }
 
 function handleBotRequest(
@@ -34,7 +40,7 @@ function handleBotRequest(
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext
-) {
+): Promise<Response> {
   return new Promise((resolve, reject) => {
     let shellRendered = false
     const { pipe, abort } = renderToPipeableStream(
@@ -80,7 +86,7 @@ function handleBrowserRequest(
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext
-) {
+): Promise<Response> {
   return new Promise((resolve, reject) => {
     let shellRendered = false
     const { pipe, abort } = renderToPipeableStream(
