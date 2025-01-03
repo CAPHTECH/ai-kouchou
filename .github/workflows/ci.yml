@@ -58,9 +58,21 @@ jobs:
 
       - name: Setup test database
         run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/ai_koucho_test
 
       - name: Run tests
         run: npm run test:coverage
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/ai_koucho_test
+          REDIS_URL: redis://localhost:6379
+          SESSION_SECRET: test-secret
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        run: npm run test:e2e
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/ai_koucho_test
           REDIS_URL: redis://localhost:6379
