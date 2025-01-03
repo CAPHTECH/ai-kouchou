@@ -12,6 +12,7 @@ import { RemixServer } from '@remix-run/react'
 import { isbot } from 'isbot'
 import { renderToPipeableStream } from 'react-dom/server'
 import { corsHeaders } from './lib/middleware/cors'
+import { monitoringMiddleware } from './lib/middleware/monitoring'
 import { securityHeaders } from './lib/middleware/security'
 
 const ABORT_DELAY = 5_000
@@ -31,8 +32,10 @@ export default async function handleRequest(
 
   const withCors = (req: Request, ctx: AppLoadContext) => corsHeaders(req, ctx, callOriginalHandler)
   const withSecurity = (req: Request, ctx: AppLoadContext) => securityHeaders(req, ctx, withCors)
+  const withMonitoring = (req: Request, ctx: AppLoadContext) =>
+    monitoringMiddleware(req, ctx, withSecurity)
 
-  return withSecurity(request, loadContext)
+  return withMonitoring(request, loadContext)
 }
 
 function handleBotRequest(
