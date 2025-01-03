@@ -30,10 +30,11 @@ export default async function handleRequest(
       : await handleBrowserRequest(req, responseStatusCode, responseHeaders, remixContext)
   }
 
-  const withCors = (req: Request, ctx: AppLoadContext) => corsHeaders(req, ctx, callOriginalHandler)
-  const withSecurity = (req: Request, ctx: AppLoadContext) => securityHeaders(req, ctx, withCors)
-  const withMonitoring = (req: Request, ctx: AppLoadContext) =>
-    monitoringMiddleware(req, ctx, withSecurity)
+  const withCors = (req: Request, _ctx: AppLoadContext) =>
+    corsHeaders(req, _ctx, callOriginalHandler)
+  const withSecurity = (req: Request, _ctx: AppLoadContext) => securityHeaders(req, _ctx, withCors)
+  const withMonitoring = (req: Request, _ctx: AppLoadContext) =>
+    monitoringMiddleware(req, _ctx, withSecurity)
 
   return withMonitoring(request, loadContext)
 }

@@ -1,13 +1,5 @@
 import type { LogLevel } from './types'
 
-const LOG_LEVELS = {
-  DEBUG: 0,
-  INFO: 1,
-  WARN: 2,
-  ERROR: 3,
-  FATAL: 4,
-} as const
-
 class Logger {
   private static instance: Logger
   private env: string
