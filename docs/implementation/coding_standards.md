@@ -30,10 +30,10 @@ const user: any = { ... };
 
 ```typescript
 // 良い例
-const name = user?.name ?? "名前なし";
+const name = user?.name ?? '名前なし'
 
 // 悪い例
-const name = user && user.name ? user.name : "名前なし";
+const name = user && user.name ? user.name : '名前なし'
 ```
 
 #### 非同期処理
@@ -45,10 +45,10 @@ const name = user && user.name ? user.name : "名前なし";
 ```typescript
 // 良い例
 try {
-  const data = await fetchData();
+  const data = await fetchData()
 } catch (error) {
   if (error instanceof Error) {
-    handleError(error);
+    handleError(error)
   }
 }
 ```
@@ -98,9 +98,9 @@ src/
 ```typescript
 // routes/users/$userId.tsx
 export const loader = async ({ params }: LoaderArgs) => {
-  const user = await getUser(params.userId);
-  return json({ user });
-};
+  const user = await getUser(params.userId)
+  return json({ user })
+}
 ```
 
 #### エラーバウンダリ
@@ -157,14 +157,14 @@ export const DashboardLayout = ({ children }: PropsWithChildren) => { ... };
 
 ```typescript
 type ButtonProps = {
-  label: string;
-  variant?: "primary" | "secondary";
-  onClick: () => void;
-};
+  label: string
+  variant?: 'primary' | 'secondary'
+  onClick: () => void
+}
 
 const defaultProps = {
-  variant: "primary" as const,
-};
+  variant: 'primary' as const,
+}
 ```
 
 #### イベントハンドリング
@@ -175,9 +175,9 @@ const defaultProps = {
 
 ```typescript
 const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-  e.stopPropagation();
-  onClick();
-};
+  e.stopPropagation()
+  onClick()
+}
 ```
 
 ### 2-3. スタイリング規約
@@ -223,8 +223,8 @@ export const theme = {
     sm: '640px',
     md: '768px',
     // ...
-  }
-} as const;
+  },
+} as const
 ```
 
 ## 3. 状態管理ルール
@@ -238,8 +238,8 @@ export const theme = {
 - 状態の最小化
 
 ```typescript
-const [isOpen, setIsOpen] = useState(false);
-const [count, setCount] = useState(0);
+const [isOpen, setIsOpen] = useState(false)
+const [count, setCount] = useState(0)
 ```
 
 #### グローバル状態
@@ -287,15 +287,18 @@ function Parent() {
 ```typescript
 class ValidationError extends Error {
   constructor(public errors: Record<string, string>) {
-    super('Validation Error');
-    this.name = 'ValidationError';
+    super('Validation Error')
+    this.name = 'ValidationError'
   }
 }
 
 class NetworkError extends Error {
-  constructor(public status: number, message: string) {
-    super(message);
-    this.name = 'NetworkError';
+  constructor(
+    public status: number,
+    message: string
+  ) {
+    super(message)
+    this.name = 'NetworkError'
   }
 }
 ```
@@ -310,14 +313,14 @@ class NetworkError extends Error {
 export function handleError(error: unknown) {
   if (error instanceof ValidationError) {
     // バリデーションエラーの処理
-    showValidationErrors(error.errors);
+    showValidationErrors(error.errors)
   } else if (error instanceof NetworkError) {
     // ネットワークエラーの処理
-    showNetworkError(error.status);
+    showNetworkError(error.status)
   } else {
     // 予期せぬエラーの処理
-    logError(error);
-    showUnexpectedError();
+    logError(error)
+    showUnexpectedError()
   }
 }
 ```
@@ -442,11 +445,11 @@ export function OptimizedImage() {
 ```typescript
 // loaderでのキャッシュ制御
 export const loader = async ({ request }: LoaderArgs) => {
-  const data = await getData();
+  const data = await getData()
   return json(data, {
     headers: {
       'Cache-Control': 'public, max-age=300, s-maxage=3600',
     },
-  });
-};
+  })
+}
 ```

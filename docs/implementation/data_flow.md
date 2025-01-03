@@ -107,14 +107,14 @@ stateDiagram-v2
     TEXT_CONVERTED --> AUDIO_GENERATED: 音声生成完了
     AUDIO_GENERATED --> VIDEO_GENERATED: 動画生成完了
     VIDEO_GENERATED --> COMPLETED: 処理完了
-    
+
     PROCESSING --> FAILED: エラー発生
     TEXT_CONVERTED --> FAILED: エラー発生
     AUDIO_GENERATED --> FAILED: エラー発生
-    
+
     FAILED --> RETRY: リトライ
     RETRY --> PROCESSING: 再処理
-    
+
     COMPLETED --> [*]
     FAILED --> [*]: リトライ上限
 ```
@@ -256,13 +256,13 @@ flowchart TD
     A[Cloud Storage] --> B[一時保存領域]
     A --> C[公開領域]
     A --> D[アーカイブ]
-    
+
     B --> B1[音声ファイル]
     B --> B2[動画ファイル]
-    
+
     C --> C1[ダウンロード用]
     C --> C2[ストリーミング用]
-    
+
     D --> D1[バックアップ]
     D --> D2[統計データ]
 ```

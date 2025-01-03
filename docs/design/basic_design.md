@@ -16,7 +16,7 @@ sequenceDiagram
     participant VertexAI
     participant TTS
     participant AvatarService
-    
+
     User->>Frontend: テキスト入力
     Frontend->>RemixServer: Form Action
     Note over RemixServer: バックエンド処理開始

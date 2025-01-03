@@ -14,16 +14,19 @@ AIコウチョウは、以下の特徴を持つWebアプリケーションです
 ## 🛠️ 技術スタック
 
 - **フロントエンド**
+
   - Remix
   - TailwindCSS
   - TypeScript
 
 - **バックエンド**
+
   - Remix (Server Side)
   - Node.js
   - Redis
 
 - **インフラ**
+
   - Google Cloud Run
   - Cloud Storage
   - Cloud Monitoring
